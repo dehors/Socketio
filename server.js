@@ -7,7 +7,11 @@ var server = http.createServer(function (req, res){
 		res.writeHead(200, { 'Content-Type': 'text/html' });
 		res.end(data, 'utf-8');
 	});
-}).listen(3000, "127.0.0.1");
+});
+
+var port = Number(process.env.PORT || 3000);
+server.listen(port);
+
 console.log('Servidor funcionando en http://127.0.0.1');
 
 var io = require('socket.io').listen(server);
