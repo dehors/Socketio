@@ -18,7 +18,7 @@ var io = require('socket.io').listen(server);
 
 
 io.sockets.on('connection', function (socket) {
-//Server-cliente	
+//Server-Cliente	
 	count++;
 	console.log('Usuario conectado. ' + count + ' usuario(s) ahora.');
 	socket.emit('users', { number: count});
@@ -29,9 +29,21 @@ io.sockets.on('connection', function (socket) {
 	socket.broadcast.emit('users', { number: count});
 
   });
-//Cliente-server-cliente
+//Cliente-Server-Clientes
 	socket.on('message', function (data) {	
 	socket.broadcast.emit('enviar mensaje', data);
 	
   });
+//Cliente-Servidor-Cliente(ping-pong)
+	socket.on('ping', function (data) {	
+		console.log('Recibido PING del cliente. Enviando PONG');
+	socket.emit('pong', { text: 'PONG' });	
+  });	
+	socket.on('pong', function (data) {	
+		console.log('Recibido PONG.');
+  });
+	setInterval(function(){
+		console.log('Eviando PING al cliente');
+		socket.emit('ping', { text: 'PING' });
+	},10000);
 });

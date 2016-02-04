@@ -13,7 +13,7 @@
  	<textarea id="mensaje" rows="4" cols="30"></textarea> 
  	<input type="submit" value="Enviar mensaje" />
  </form>
-
+<button id="ping">Enviar el ping al servidor</button>
  <script>
  var socket = io.connect('http://127.0.0.1:3000');
 //Server-cliente
@@ -31,7 +31,20 @@
  socket.on('enviar mensaje', function(data){
  	$('form').after('<p>' + data.text + '</p>');
  });
-  </script>
+
+//Cliente-Servidor-Cliente(ping-pong)
+ socket.on('ping', function (data) {	
+	console.log('Recibido PING del servidor. Enviando PONG');
+	socket.emit('pong', { text: 'PONG' });	
+  });	
+ socket.on('pong', function (data) {	
+	console.log('Recibido PONG.');
+  });
+ $('#ping').click(function(){
+ 	console.log('Enviando PING al servidor');
+ 	socket.emit('ping', { text: 'PING' });	
+ })
+ </script>
 
 
 
