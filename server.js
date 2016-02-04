@@ -17,8 +17,10 @@ io.sockets.on('connection', function (socket) {
 	count++;
 	console.log('Usuario conectado. ' + count + ' usuario(s) ahora.');
 	socket.emit('users', { number: count});
+	socket.broadcast.emit('users', { number: count});
 	socket.on('disconnect', function () {
 	count--;    
 	console.log('Usuario desconectado. ' + count + ' usuario(s) ahora.');
+	socket.broadcast.emit('users', { number: count});
   });
 });
