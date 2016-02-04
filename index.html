@@ -5,9 +5,14 @@
 </head>
 <body>
  <h1>Ejemplo de Socket.io</h1>
+ <h5><p id="count"></p> Usuario(s) conectado</h5>
  <script src="/socket.io/socket.io.js"></script>
  <script>
  var socket = io.connect('http://127.0.0.1:3000');
+ var count = document.getElementById('count');
+ socket.on('users', function (data){
+ count.innerHTML = data.number;
+ });
  </script>
 </body>
 </html>
