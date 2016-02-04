@@ -18,6 +18,7 @@ var io = require('socket.io').listen(server);
 
 
 io.sockets.on('connection', function (socket) {
+//Server-cliente	
 	count++;
 	console.log('Usuario conectado. ' + count + ' usuario(s) ahora.');
 	socket.emit('users', { number: count});
@@ -26,5 +27,11 @@ io.sockets.on('connection', function (socket) {
 	count--;    
 	console.log('Usuario desconectado. ' + count + ' usuario(s) ahora.');
 	socket.broadcast.emit('users', { number: count});
+
+  });
+//Cliente-server-cliente
+	socket.on('message', function (data) {	
+	socket.broadcast.emit('enviar mensaje', data);
+	
   });
 });
