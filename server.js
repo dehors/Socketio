@@ -1,5 +1,6 @@
 var http = require('http');
 var fs = require('fs');
+var count = 0;
 
 var server = http.createServer(function (req, res){
 	fs.readFile('./index.html', function(error, data){
@@ -13,8 +14,10 @@ var io = require('socket.io').listen(server);
 
 
 io.sockets.on('connection', function (socket) {
-	console.log("Usuario conectado");
-    socket.on('disconnect', function () {    
-    console.log('Usuario desconectado');
+	count++;
+	console.log('Usuario conectado. ' + count + ' usuario(s) ahora.');
+    socket.on('disconnect', function () {
+    count--;    
+    console.log('Usuario desconectado. ' + count + ' usuario(s) ahora.');
   });
 });
